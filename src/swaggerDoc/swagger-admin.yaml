@@ -1,0 +1,1000 @@
+swagger: "2.0"
+info:
+  description: Node.js Rest API doc
+  version: "1.0.0"
+  title: Node Rest API documentation (Admin)
+  termsOfService: "http://swagger.io/terms/"
+  contact:
+    email: giancarlovs2891@gmail.com
+  license:
+    name: Apache 2.0
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+# host: localhost:3002
+basePath: /api/v1
+schemes:
+  - https
+  - http
+paths:
+  /user/login:
+    post:
+      tags:
+        - User Module
+      summary: Login
+      description: API for Login
+      parameters:
+        - in: body
+          name: body
+          description: Login Payload
+          required: true
+          schema:
+            # $ref: "#/definitions/User"
+            properties:
+              email:
+                type: string
+              password:
+                type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Login Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/{id}:
+    put:
+      tags:
+        - User Module
+      summary: Login
+      description: API for Login
+      parameters:
+        - name: id
+          in: path
+          description: User Id
+          type: string
+          required: true
+        - in: body
+          name: body
+          description: Update Payload
+          required: true
+          schema:
+            # $ref: "#/definitions/User"
+            properties:
+              email:
+                type: string
+              firstName:
+                type: string
+              lastName:
+                type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User Updated Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/{id}/update-password:
+    put:
+      tags:
+        - User Module
+      summary: Login
+      description: API for Login
+      parameters:
+        - name: id
+          in: path
+          description: User Id
+          type: string
+          required: true
+        - in: body
+          name: body
+          description: Update Payload
+          required: true
+          schema:
+            # $ref: "#/definitions/User"
+            properties:
+              currentPassword:
+                type: string
+              newPassword:
+                type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: User Updated Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/forgot-password:
+    post:
+      tags:
+        - User Module
+      summary: Login
+      description: API for Login
+      parameters:
+        - in: body
+          name: body
+          description: Update Payload
+          required: true
+          schema:
+            $ref: "#/definitions/User"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Token has been sent
+          schema:
+            # $ref: "#/definitions/ApiResponse"
+            properties:
+              email:
+                # type: string
+                properties:
+              email:
+                type: string
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /user/reset-password:
+    post:
+      tags:
+        - User Module
+      summary: Login
+      description: API for Login
+      parameters:
+        - in: body
+          name: body
+          description: Update Payload
+          required: true
+          schema:
+            # $ref: "#/definitions/User"
+            properties:
+              token:
+                type: string
+              password:
+                type: string
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Password has been reset
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /customer:
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Module
+      summary: Customer API
+      description: API for creating customer
+      parameters:
+        - in: body
+          name: body
+          description: Create Customer Payload
+          required: true
+          schema:
+            # $ref: "#/definitions/Customer"
+            properties:
+              email:
+                type: string
+              companyName:
+                type: string
+              companyType:
+                type: string
+                description: valid values 'Corporation', 'Partnership', 'Sole Propietorship'
+              contactName:
+                type: string
+              phone:
+                type: string
+              position:
+                type: string
+              einvatss:
+                type: string
+              eori:
+                type: string
+              yearsInBusiness:
+                type: number
+              country:
+                type: string
+              address1:
+                type: string
+              address2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              zip:
+                type: string
+              status:
+                type: string
+                description: valid values 'Enable', 'Disable', 'Pending'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Created Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Module
+      summary: Customer API
+      description: API for fetching all customers
+      parameters:
+        - name: skip
+          in: query
+          description: no. of record to be skipped for pagination
+          type: number
+          required: false
+        - name: limit
+          in: query
+          description: no. of record api should return for pagination
+          type: number
+          required: false
+        - name: sort
+          in: query
+          description: field to sort (eg sort=fieldName|asc)
+          type: string
+          required: false
+        - name: filter
+          in: query
+          description: filter records (eg filter=[{"f":"nickname", "op":"like","val":"nickname 2"}])
+          type: string
+          required: false
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer fetched Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /customer/{id}:
+    parameters:
+      - name: id
+        in: path
+        description: Customer Id
+        type: string
+        required: true
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Module
+      summary: Fetch Customer Detail
+      description: Fetch Customer Detail
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Fetched Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Module
+      summary: Update Customer
+      description: Update Customer
+      parameters:
+        - in: body
+          name: body
+          description: Update Customer Payload
+          required: true
+          schema:
+            # $ref: "#/definitions/Customer"
+            properties:
+              email:
+                type: string
+              companyName:
+                type: string
+              companyType:
+                type: string
+                description: valid values 'Corporation', 'Partnership', 'Sole Propietorship'
+              contactName:
+                type: string
+              phone:
+                type: string
+              position:
+                type: string
+              einvatss:
+                type: string
+              eori:
+                type: string
+              yearsInBusiness:
+                type: number
+              country:
+                type: string
+              address1:
+                type: string
+              address2:
+                type: string
+              city:
+                type: string
+              state:
+                type: string
+              zip:
+                type: string
+              status:
+                type: string
+                description: valid values 'Enable', 'Disable', 'Pending'
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Updated Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error    
+  /customer/{customerId}/addresses:
+    parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        type: string
+        required: true
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Address Module
+      summary: Customer Address API
+      description: API for creating customer
+      parameters:
+        - in: body
+          name: body
+          description: Create Customer Address Payload
+          required: true
+          schema:
+            $ref: "#/definitions/CustomerAddress"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Address Created Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Address Module
+      summary: Customer Address API
+      description: API for fetching all customers
+      parameters:
+        - name: skip
+          in: query
+          description: no. of record to be skipped for pagination
+          type: number
+          required: false
+        - name: limit
+          in: query
+          description: no. of record api should return for pagination
+          type: number
+          required: false
+        - name: sort
+          in: query
+          description: field to sort (eg sort=fieldName|asc)
+          type: string
+          required: false
+        - name: filter
+          in: query
+          description: filter records (eg filter=[{"f":"nickname", "op":"like","val":"nickname 2"}])
+          type: string
+          required: false
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Address fetched Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /customer/{customerId}/addresses/{addressId}:
+    parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        type: string
+        required: true
+      - name: addressId
+        in: path
+        description: Customer Address Id
+        type: string
+        required: true
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Address Module
+      summary: Fetch Customer Address Detail
+      description: Fetch Customer Address Detail
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Address Fetched Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Address Module
+      summary: Update Customer
+      description: Update Customer
+      parameters:
+        - in: body
+          name: body
+          description: Update Customer Address Payload
+          required: true
+          schema:
+            $ref: "#/definitions/CustomerAddress"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Address Updated Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error  
+  /customer/{customerId}/notes:
+    parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        type: string
+        required: true
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Note Module
+      summary: Customer Note API
+      description: API for creating customer
+      parameters:
+        - in: body
+          name: body
+          description: Create Customer Note Payload
+          required: true
+          schema:
+            $ref: "#/definitions/CustomerNote"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Note Created Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Note Module
+      summary: Customer Note API
+      description: API for fetching all customers
+      parameters:
+        - name: skip
+          in: query
+          description: no. of record to be skipped for pagination
+          type: number
+          required: false
+        - name: limit
+          in: query
+          description: no. of record api should return for pagination
+          type: number
+          required: false
+        - name: sort
+          in: query
+          description: field to sort (eg sort=fieldName|asc)
+          type: string
+          required: false
+        - name: filter
+          in: query
+          description: filter records (eg filter=[{"f":"nickname", "op":"like","val":"nickname 2"}])
+          type: string
+          required: false
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Note fetched Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /customer/{customerId}/notes/{noteId}:
+    parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        type: string
+        required: true
+      - name: noteId
+        in: path
+        description: Customer Note Id
+        type: string
+        required: true
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Note Module
+      summary: Fetch Customer Note Detail
+      description: Fetch Customer Note Detail
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Note Fetched Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Note Module
+      summary: Update Customer
+      description: Update Customer
+      parameters:
+        - in: body
+          name: body
+          description: Update Customer Note Payload
+          required: true
+          schema:
+            $ref: "#/definitions/CustomerNote"
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Note Updated Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error 
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Note Module
+      summary: Remove Customer Note
+      description: Remove Customer Note
+      produces:
+        - application/json
+      responses:
+        204:
+          description: Customer Note Deleted Successfully
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /customer/{customerId}/files:
+    parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        type: string
+        required: true
+    post:
+      security:
+        - Bearer: []
+      tags:
+        - Customer File Module
+      summary: Customer File API
+      description: API for creating customer
+      parameters:
+        - name: filename
+          in: formData
+          description: filename
+          type: string
+          required: true
+        - name: attachment
+          in: formData
+          description: "file to upload"
+          required: true
+          type: file
+      consumes:
+        - multipart/form-data
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer File Created Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Customer File Module
+      summary: Customer File API
+      description: API for fetching all customers
+      parameters:
+        - name: skip
+          in: query
+          description: no. of record to be skipped for pagination
+          type: number
+          required: false
+        - name: limit
+          in: query
+          description: no. of record api should return for pagination
+          type: number
+          required: false
+        - name: sort
+          in: query
+          description: field to sort (eg sort=fieldName|asc)
+          type: string
+          required: false
+        - name: filter
+          in: query
+          description: filter records (eg filter=[{"f":"nickname", "op":"like","val":"nickname 2"}])
+          type: string
+          required: false
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer File fetched Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /customer/{customerId}/file/{fileId}:
+    parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        type: string
+        required: true
+      - name: fileId
+        in: path
+        description: Customer File Id
+        type: string
+        required: true
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Customer File Module
+      summary: Fetch Customer File Detail
+      description: Fetch Customer File Detail
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer File Fetched Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+    put:
+      security:
+        - Bearer: []
+      tags:
+        - Customer File Module
+      summary: Update Customer
+      description: Update Customer
+      parameters:
+        - name: filename
+          in: formData
+          description: filename
+          type: string
+          required: true
+        - name: attachment
+          in: formData
+          description: "file to upload"
+          required: false
+          type: file
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer File Updated Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error  
+    delete:
+      security:
+        - Bearer: []
+      tags:
+        - Customer File Module
+      summary: Remove Customer File
+      description: Remove Customer File
+      produces:
+        - application/json
+      responses:
+        204:
+          description: Customer File Deleted Successfully
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /customer/{customerId}/quotes:
+    parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        type: string
+        required: true
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Quotes History Module
+      summary: Customer Address API
+      description: API for fetching all customers
+      parameters:
+        - name: skip
+          in: query
+          description: no. of record to be skipped for pagination
+          type: number
+          required: false
+        - name: limit
+          in: query
+          description: no. of record api should return for pagination
+          type: number
+          required: false
+        - name: sort
+          in: query
+          description: field to sort (eg sort=fieldName|asc)
+          type: string
+          required: false
+        - name: filter
+          in: query
+          description: filter records (eg filter=[{"f":"nickname", "op":"like","val":"nickname 2"}])
+          type: string
+          required: false
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Quotes History fetched Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+  /customer/{customerId}/shipments:
+    parameters:
+      - name: customerId
+        in: path
+        description: Customer Id
+        type: string
+        required: true
+    get:
+      security:
+        - Bearer: []
+      tags:
+        - Customer Shipments History Module
+      summary: Customer Address API
+      description: API for fetching all customers
+      parameters:
+        - name: skip
+          in: query
+          description: no. of record to be skipped for pagination
+          type: number
+          required: false
+        - name: limit
+          in: query
+          description: no. of record api should return for pagination
+          type: number
+          required: false
+        - name: sort
+          in: query
+          description: field to sort (eg sort=fieldName|asc)
+          type: string
+          required: false
+        - name: filter
+          in: query
+          description: filter records (eg filter=[{"f":"nickname", "op":"like","val":"nickname 2"}])
+          type: string
+          required: false
+      produces:
+        - application/json
+      responses:
+        "200":
+          description: Customer Quotes History fetched Successfully
+          schema:
+            $ref: "#/definitions/ApiResponse"
+        "400":
+          description: Invalid Fields
+        "500":
+          description: Internal Server Error
+       
+          
+securityDefinitions:
+  Bearer:
+    type: apiKey
+    name: Authorization
+    in: header
+definitions:
+  User:
+    properties:
+      email:
+        type: string
+        description: email of user
+      password:
+        type: string
+        description: password of the user
+      firstName:
+        type: string
+        description: first name of the user
+      lastName:
+        type: string
+        description: last name of the user
+  Customer:
+    properties:
+      email:
+        type: string
+      password:
+        type: string
+      companyName:
+        type: string
+      companyType:
+        type: string
+        description: valid values 'Corporation', 'Partnership', 'Sole Propietorship'
+      contactName:
+        type: string
+      phone:
+        type: string
+      position:
+        type: string
+      einvatss:
+        type: string
+      eori:
+        type: string
+      yearsInBusiness:
+        type: number
+      country:
+        type: string
+      address1:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zip:
+        type: string
+      status:
+        type: string
+        description: valid values 'Pending Approval', 'On Credit Hold', 'Active', 'Inactive'
+      code:
+        type: string
+      currency:
+        type: string
+        description: valid values 'USD', 'EUR', 'GBP'
+      approvedAmount:
+        type: number
+      vip:
+        type: boolean
+  CustomerAddress:
+    properties:
+      contactName:
+        type: string
+      phone:
+        type: string
+      email:
+        type: string
+      nickname:
+        type: string
+      country:
+        type: string
+      address1:
+        type: string
+      address2:
+        type: string
+      city:
+        type: string
+      state:
+        type: string
+      zip:
+        type: string
+      defaultOrigin:
+        type: boolean
+      defaultDestination:
+        type: boolean
+      customer:
+        type: string
+      isBillingAddress:
+        type: boolean
+      isCorporateAddress:
+        type: boolean
+  CustomerNote:
+    properties:
+      details:
+        type: string
+      user:
+        type: string
+      customer:
+        type: string
+  CustomerFile:
+    properties:
+      filename:
+        type: string
+      url:
+        type: string
+      user:
+        type: string
+      customer:
+        type: string
+  ApiResponse:
+    type: object
+    properties:
+      status:
+        type: integer
+      message:
+        type: string
+      body:
+        type: object
