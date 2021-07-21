@@ -1,6 +1,6 @@
 # get into project folder
 
-cd app-api
+cd nodejs-template-express
 
 # create .env file
 
